@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+
+  gcp_demo_cluster:
+    container_name: gcp_demo_cluster
+    command: ["ls"]
+    stdin_open: false
+    tty: false
+    build: .

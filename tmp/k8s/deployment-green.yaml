@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-app-v2
+  labels:
+    app: express-app
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: express-app
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: express-app
+        version: v2
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9101"
+    spec:
+      containers:
+        - name: express-app
+          image: us.gcr.io/dennys-221918/express-app_server:v2
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "128m"
+          ports:
+          - name: http
+            containerPort: 3000
