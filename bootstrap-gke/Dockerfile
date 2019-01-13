@@ -1,4 +1,3 @@
-# Receipe to deploy gke cluster
 FROM ubuntu:xenial
 
 RUN  apt-get update -y && \
@@ -22,10 +21,6 @@ RUN apt-get update \
     && apt-get update \
     && apt-get install -y kubectl
 
-## Install helm
-# https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
-RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get | bash
-
 ## Install gcloud
 # https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
@@ -38,32 +33,7 @@ RUN wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linu
     && unzip terraform_0.11.10_linux_amd64.zip \
     && mv terraform /usr/local/bin/
 
-COPY ./terraform/main_gke.tf \
+COPY ./terraform \
      ./
-
-## Authenticate gcloud
-COPY ./terraform/gcp_gke_credentials.json .
-
-RUN gcloud auth activate-service-account --key-file ./gcp_gke_credentials.json
-
-## Create gke cluster
-RUN terraform init \
-    && terraform apply --auto-approve
-
-## Initialize helm 
-RUN gcloud config set project dennys-221918 \
-    && gcloud config set compute/zone us-east4-a 
-
-COPY ./terraform/rbac-config.yaml .
-
-RUN gcloud container clusters get-credentials dr-wallace-burger \
-    && kubectl create serviceaccount tiller --namespace kube-system \
-    && kubectl apply -f rbac-config.yaml \
-    && helm init --service-account tiller --wait \
-    && helm repo update
-
-
-## Destroy gke cluster
-# RUN terraform destroy --auto-approve
     
-CMD [ "ls" ]
+CMD [ "./entrypoint.sh" ]

@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 terraform init 
 terraform apply --auto-approve
 
@@ -14,8 +12,5 @@ gcloud config set project dennys-221918 \
 
 # get credentials cluster for container
 # TODO remove hardcoded cluster name
-gcloud container clusters get-credentials dr-wallace-burger \
-    && kubectl create serviceaccount tiller --namespace kube-system \
-    && kubectl apply -f rbac-config.yaml \
-    && helm init --service-account tiller --wait \
-    && helm repo update
+gcloud container clusters get-credentials dr-wallace-burger
+

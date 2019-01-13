@@ -7,7 +7,7 @@ var router = express.Router();
 
 // A liveness probe is used to indicate whether the process is to be restarted.
 router.get('/', function(req, res, next) {
-  res.json({ status: 'down' });
+  res.json({ status: 'up' });
 });
 
 
