@@ -26,3 +26,10 @@ https://codefresh.io/kubernetes-tutorial/blue-green-deploy/
 
 ## Requirements
 - needs two images already present in a gcr container or can pull from public docker repo!
+
+
+
+building docker images
+
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker bootstrap_gke:v1 /bin/sh
+docker run -it -v /var/run/docker.sock:/var/run/docker.sock bootstrap_gke:v1 /bin/sh

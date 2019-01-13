@@ -1,6 +1,6 @@
 # Authenticate to GCP
 provider "google" {
-    credentials = "${file("gcp_gke_credentials.json")}"
+    credentials = "${file("gke_credentials.json")}"
     project     = "dennys-221918"
     region      = "us-east4"
 }

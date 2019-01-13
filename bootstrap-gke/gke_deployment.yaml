@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: express-app-v2
+  name: express-app-v1
   labels:
     app: express-app
 spec:
@@ -15,19 +15,19 @@ spec:
   selector:
     matchLabels:
       app: express-app
-      version: v2
+      version: v1
   template:
     metadata:
       labels:
         app: express-app
-        version: v2
+        version: v1
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9101"
     spec:
       containers:
         - name: express-app
-          image: us.gcr.io/dennys-221918/express-app_server:v2
+          image: us.gcr.io/dennys-221918/express-app_server:v1
           imagePullPolicy: Always
           resources:
             limits:
