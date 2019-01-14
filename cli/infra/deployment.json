@@ -2,7 +2,7 @@
     "apiVersion": "apps/v1",
     "kind": "Deployment",
     "metadata": {
-        "name": "express-app-v1",
+        "name": "express-app-v2",
         "labels": {
             "app": "express-app"
         }
@@ -19,14 +19,14 @@
         "selector": {
             "matchLabels": {
                 "app": "express-app",
-                "version": "v1"
+                "version": "v2"
             }
         },
         "template": {
             "metadata": {
                 "labels": {
                     "app": "express-app",
-                    "version": "v1"
+                    "version": "v2"
                 },
                 "annotations": {
                     "prometheus.io/scrape": "true",
@@ -37,7 +37,7 @@
                 "containers": [
                     {
                         "name": "express-app",
-                        "image": "us.gcr.io/dennys-221918/express-app_server:v1",
+                        "image": "us.gcr.io/dennys-221918/express-app_server:v2",
                         "imagePullPolicy": "Always",
                         "resources": {
                             "limits": {
