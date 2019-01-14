@@ -31,7 +31,9 @@ Now that the service is up and running. You can run the following commands to tr
 
 ```
 cd cli
+```
 
+```
 node index.js deploy us.gcr.io/dennys-221918/express-app_server:v1 us.gcr.io/dennys-221918/express-app_server:v2
 ```
 
@@ -44,11 +46,11 @@ Here are some thoughts about the code I've written and building the cluster.
 ### CLI
 The goal was a achieved but practically I am not a fan for hacking together scripts to deploy individual applications. For this I would prefer to keep it in CD or use a tool like Flux operation and let the operator determine when a change is made that merits a deploy.
 
-The cli could you a lot of work. First I'm not a huge fan of spinning up subprocess in live shells to execute the `kubectl` commands. Here I would've preferred to use the Javascript client libraries to talk to the kubernetes api. 
+The cli could use a lot of work. I'm not a huge fan of spinning up subprocess in live shells to execute the `kubectl` commands. Here I would've preferred to use the Javascript client libraries to talk to the kubernetes API. 
 
-A lot of the commands block the Node runtime event loop which is not ideal. However it was ok because we needed these tasks to run in sequence. I would prefer to use better async handling or even another language if Node is not the right fit for the task.
+A lot of the commands block the runtime event loop which is not ideal. However it was ok, because we needed these tasks to run in sequence. I would prefer to use better async handling or even another language if Node is not the right fit for the task.
 
-There is a ton of things that are hardcoded: app name, project name, image url, and the path to the cli command. The goal would be to refactor those things to be more dynamic. Right now its hard to make the cli functionality general. After completing that cli, I realized a better option would have been to download the current Deployment to memory
+There is a ton of things that are hardcoded: app name, project name, image url, and the path to the cli command. The goal would be to refactor those things to be more dynamic. Right now its hard to make the cli functionality general. After completing that cli, I realized a better option would have been to download the current Deployment to memory, make the modifications, and then apply the changes. Those files have a high change of going stale
 
 ### GKE
-I found this task hard to complete without an actual cluster so I made one in GKE. I chose GKE because I already had a project using Docker to create a GKE cluster from within a container. I would prefer to have everything run in Docker as it makes running these commands easier on any machine, including within CI.
+I found this task hard to complete without an actual cluster so I made one in GKE. I chose GKE because I already had a project using Docker to create a GKE cluster from within a container. I would prefer to have everything run in Docker as it makes running these commands easier on any machine, including within CI. I apologize in advance if you are not able to run the example but included the demo video to demonstrate how possible it could be.
